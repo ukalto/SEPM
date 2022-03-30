@@ -1,0 +1,25 @@
+<h2>Editing: {{owner?.prename}} {{owner?.surname}}</h2>
+<form *ngIf="owner != null" #form="ngForm" ngClass="form" (ngSubmit)="onSubmit(form)" name="ownerForm">
+    <div ngClass="formControl">
+        <label for="prename">Prename</label>
+        <input [(ngModel)]="owner.prename" required type="text" name="prename" id="prename" minlength="1" #prename="ngModel">
+        <small *ngIf="!prename.valid" ngClass="error">Prename has to be filled in</small>
+    </div>
+    <div ngClass="formControl">
+        <label for="surname">Surname</label>
+        <input [(ngModel)]="owner.surname" required type="text" name="surname" id="surname" minlength="1" #surname="ngModel">
+        <small *ngIf="!surname.valid" ngClass="error">Surname has to be filled in</small>
+    </div>
+    <div class="formControl">
+        <label>Email address</label>
+        <input type="email" placeholder="name@example.com" name="email" id="email" [(ngModel)]="owner.email" ngModel email="true" #email="ngModel">
+        <small *ngIf="!email.valid" ngClass="error">Fill in a legitement email</small>
+    </div>
+    <div style="display: flex;
+        justify-content: center;
+        align-items: center; 
+        width: 100%;">
+        <button style="margin-top: 5px; color: black; background-color: aqua; width: 20%;">Submit changes</button>
+        <div id="snackbar">Fill in correctly</div>
+    </div>
+</form>

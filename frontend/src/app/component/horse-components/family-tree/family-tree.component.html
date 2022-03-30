@@ -1,0 +1,48 @@
+<h2>Family-tree of {{horse?.name}}</h2>
+<input type="number" id="generations" name="generations" style="margin:10px; width: 100px"
+       [(ngModel)]="generations" (change)="generationsChanged($event)" min="1">
+<ng-template #nodeTemplateRef let-node >
+  <ngb-accordion #acc="ngbAccordion" *ngIf="node?.name">
+    <ngb-panel>
+      <ng-template ngbPanelTitle>
+        <span style="margin: 10px">{{node.name}}</span>
+        <span style="margin: 10px" >{{node.birthdate}}</span>
+        <button (click)="detailsHorse(node)" id="detailsB" style="margin: 10px">Details</button>
+        <button (click)="deleteHorse(node.id)" id="deleteB" style="margin: 10px">Delete</button>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <!-- Invoke the recursive template. -->
+        <ng-template
+          [ngIf]="node.horseFather"
+          [ngTemplateOutlet]="nodeTemplateRef"
+          [ngTemplateOutletContext]="{ $implicit: node.horseFather }">
+          <!--
+            Because we are using nested ngTemplates (rather than the template
+            input of the ngFor directive), we have more control over how the
+            data is made available to the recursive template. In this case,
+            we're passing "child" through as "node".
+          -->
+        </ng-template>
+        <!-- Invoke the recursive template. -->
+        <ng-template
+          [ngIf]="node.horseMother"
+          [ngTemplateOutlet]="nodeTemplateRef"
+          [ngTemplateOutletContext]="{ $implicit: node.horseMother }">
+          <!--
+            Because we are using nested ngTemplates (rather than the template
+            input of the ngFor directive), we have more control over how the
+            data is made available to the recursive template. In this case,
+            we're passing "child" through as "node".
+          -->
+        </ng-template>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</ng-template>
+
+<ng-template
+  ngDefaultControl
+  [ngModel]="horse"
+  [ngTemplateOutlet]="nodeTemplateRef"
+  [ngTemplateOutletContext]="{ $implicit: horse }">
+</ng-template>

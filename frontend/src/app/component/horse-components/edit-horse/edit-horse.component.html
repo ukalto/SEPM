@@ -1,0 +1,60 @@
+<h2>Editing: {{horse?.name}}</h2>
+<form *ngIf="horse" ngClass="form" #form="ngForm" (ngSubmit)="onSubmit(form)" name="horseForm">
+  <div ngClass="formControl">
+    <label for="name">Name</label>
+    <input [(ngModel)]="horse.name" required type="text" name="name" id="name" minlength="1" #name="ngModel">
+    <small *ngIf="!name.valid" ngClass="error">Name has to be filled in</small>
+  </div>
+  <div ngClass="formControl">
+    <label for="description">Description</label>
+    <textarea name="description" rows="3" [(ngModel)]="horse.description"></textarea>
+  </div>
+  <div ngClass="formControl">
+    <label for="birthdate">Birthdate</label>
+    <input [(ngModel)]="horse.birthdate" required type="date" name="birthdate" id="birthdate" #birthdate="ngModel">
+    <small *ngIf="!birthdate.valid" ngClass="error">Birthdate has to be filled in</small>
+  </div>
+  <div ngClass="formControl">
+    <label for="sex">Gender</label>
+    <select name="sex" id="sex" [(ngModel)]="horse.sex" required #sex="ngModel">
+      <option value="MALE">Male</option>
+      <option value="FEMALE">Female</option>
+    </select>
+    <small *ngIf="!sex.valid" ngClass="error">Gender has to be filled in</small>
+  </div>
+  <div class="formControl">
+    <label>Owner</label>
+    <input name="owner" id="ownerTypeahead" type="text" [(ngModel)]="selectedOwner"
+           [ngbTypeahead]="searchOwner"
+           [resultFormatter]="ownerTypeaheadFormatter" [inputFormatter]="ownerTypeaheadFormatter"
+           (focus)="focus$.next($any($event).target.value)" (click)="click$.next($any($event).target.value)"
+           #instance="ngbTypeahead"/>
+  </div>
+  <div class="formControl">
+    <label>Horse father</label>
+    <input name="fatherHorse" id="fatherHorseTypeahead" type="text"
+           [(ngModel)]="selectedFather"
+           [ngbTypeahead]="searchFather"
+           [resultFormatter]="parentTypeaheadFormatter" [inputFormatter]="parentTypeaheadFormatter"
+           (focus)="focus$.next($any($event).target.value)" (click)="click$.next($any($event).target.value)"
+           #instance="ngbTypeahead"/>
+  </div>
+  <div class="formControl">
+    <label>Horse mother</label>
+    <input name="motherHorse" id="motherHorseTypeahead" type="text" [(ngModel)]="selectedMother"
+           [ngbTypeahead]="searchMother"
+           [resultFormatter]="parentTypeaheadFormatter" [inputFormatter]="parentTypeaheadFormatter"
+           (focus)="focus$.next($any($event).target.value)" (click)="click$.next($any($event).target.value)"
+           #instance="ngbTypeahead"/>
+  </div>
+  <div style="display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;">
+    <button style="margin-top: 5px; color: black; background-color: aqua; width: 20%;">Submit changes</button>
+    <button style="margin-top: 5px; width: 20%; margin-left: 10px" type="button" (click)="deleteHorse()" id="deleteB">
+      Delete
+    </button>
+    <div id="snackbar">Fill in correctly</div>
+  </div>
+</form>

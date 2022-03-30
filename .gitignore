@@ -1,0 +1,5 @@
+.idea
+*.db
+src/*/[Ll]ogs/*
+target/
+src/*/[Ll]og/*
